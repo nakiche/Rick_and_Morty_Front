@@ -1,0 +1,81 @@
+.App {
+  text-align: center;
+  background-color: grey;
+  opacity: 90%;
+  position: relative;
+}
+
+.AppNotLogged {
+  text-align: center;
+  background-color: none;
+}
+
+a {
+  margin: 2px;
+  text-decoration: none;
+}
+
+a:visited,
+a:link {
+  color: black;
+}
+
+a:hover {
+  color: white;
+}
+
+img {
+  border-radius: 10px;
+  transition-duration: 2s;
+}
+
+img:hover {
+  transform: scale(1.05, 1.05);
+}
+
+input,
+p {
+  font-family: cursive;
+}
+
+button:disabled {
+  opacity: 0.4;
+}
+
+p {
+  padding: 0;
+  margin: 0;
+}
+
+select {
+  font-family:cursive;
+  border-radius:10px;
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.loading-spinner {
+  width: 60px;
+  height: 60px;
+  border: 10px solid #fcfcfc; 
+  border-top: 10px solid #18af2f;
+  border-radius: 50%;
+  animation: spinner 1.5s linear infinite;
+}
+
+.spinner-container {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  /* height: 350px; */
+  position: absolute;
+  left: 50%;
+  top: 250px;
+  z-index: 1;
+}

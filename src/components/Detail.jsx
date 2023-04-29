@@ -3,6 +3,7 @@ import {useState,useEffect} from 'react';
 import {useParams, useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
 import LoadingSpinner from "./LoadingSpinner";
+import axios from 'axios';
 
 const DivDetail = styled.div`
    
@@ -38,28 +39,28 @@ const backToHome = () => {
 }
 
 useEffect(() => {
+   async function fetchData() {
    //fetch(`https://rickandmortyapi.com/api/character/${id}`)
    setIsLoading(true);
-   fetch(`http://localhost:3001/rickandmorty/detail/${id}`)
-      .then((response) => response.json())
-      .then((char) => {
-         if (char.name) {
-            setCharacter(char);
+   try {
+      let response = await axios.get(`rickandmorty/detail/${id}`)
+      let data = response.data;
+      console.log(data.name)
+         if (data) {
+            setCharacter(data);
             setIsLoading(false)
          } else {
             window.alert('No hay personajes con ese ID');
          }
-      })
-      .catch((err) => {
-      	console.log(err)
-         window.alert('Error:' + err);
+   } catch (error) {
+         window.alert('Error:' + error);
          setIsLoading(false)
-      });
-   return setCharacter({});
+   }
+
+   }
+   fetchData();
 	}, [id]);
   
-  
-
   return (
 
       <div>

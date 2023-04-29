@@ -12,7 +12,7 @@ export const getFavorites  = () => {
   // Completa la funcion
   return async (dispatch)=>{
     
-    let response = await axios.get(`http://localhost:3001/rickandmorty/fav/`);
+    let response = await axios.get(`rickandmorty/fav/`);
     let data = response.data;
   
   return dispatch({

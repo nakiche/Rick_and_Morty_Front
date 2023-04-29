@@ -79,7 +79,7 @@ export function Card({
     };
     if (isFav) {
       try {
-        let response = await axios.delete(`http://localhost:3001/rickandmorty/fav/${id}`);
+        let response = await axios.delete(`rickandmorty/fav/${id}`);
         window.alert(response.data)
         setIsFav(false);
       } catch (error) {
@@ -88,7 +88,7 @@ export function Card({
       dispatch(getFavorites());
     } else {
       try {
-        let response = await axios.post('http://localhost:3001/rickandmorty/fav',props);
+        let response = await axios.post('rickandmorty/fav',props);
         setIsFav(true);
         window.alert(response.data)
       } catch (error) {

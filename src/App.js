@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import {useState,useEffect} from 'react'; 
 import {Routes,Route,useNavigate,useLocation } from 'react-router-dom';
 import LoadingSpinner from './components/LoadingSpinner'
+import axios from 'axios';
 
 const DivGral = styled.div`
    //display: flex;
@@ -61,13 +62,13 @@ const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
    !access && navigate('/');
    setCharacters(dumbData)
-}, [access,dumbData]);
+}, [access,navigate]);
 
 let cleanState=()=>{
    setErrors('')
  }
  
-  const onSearch  = (character) => {
+  const onSearch  = async (character) => {
    character = character.trim()
   if (!character) {
     setErrors("Please enter an id number")
@@ -75,9 +76,11 @@ let cleanState=()=>{
     return
   }
    setIsLoading(true);
-   fetch(`http://localhost:3001/rickandmorty/character/${character}`)
-      .then((response) => response.json())
-      .then((data) => {
+   //fetch(`http://localhost:3001/rickandmorty/character/${character}`)
+   try {
+   let response = await axios.get(`rickandmorty/character/${character}`)
+   let data = response.data;
+     
          if (data.name) {
             setCharacters((oldChars) => [...oldChars, data]);
             setIsLoading(false)
@@ -87,13 +90,11 @@ let cleanState=()=>{
             setTimeout(cleanState, 3000);
             setIsLoading(false)
          }
-      })
-      .catch((err) => {
-      	console.log(err)
-         window.alert('Error:' + err);
+   } catch (error) {
+         setErrors(error.response.data)
+         setTimeout(cleanState, 3000);
          setIsLoading(false)
-      });
-
+   }
   }
 
   const onClose = (id) => {

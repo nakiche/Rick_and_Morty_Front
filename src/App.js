@@ -99,7 +99,6 @@ let cleanState=()=>{
 
   const onClose = (id) => {
      setCharacters(characters.filter(c => c.id !== id))
-     console.log(characters)
     }
 
   return (

@@ -45,7 +45,6 @@ useEffect(() => {
    try {
       let response = await axios.get(`rickandmorty/detail/${id}`)
       let data = response.data;
-      console.log(data.name)
          if (data) {
             setCharacter(data);
             setIsLoading(false)

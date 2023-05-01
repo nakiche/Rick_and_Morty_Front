@@ -8,9 +8,11 @@ import Cards from './components/Cards.jsx'
 import dumbData from './data.js'
 import styled from 'styled-components';
 import {useState,useEffect} from 'react'; 
+import { useDispatch, useSelector } from "react-redux";
 import {Routes,Route,useNavigate,useLocation } from 'react-router-dom';
 import LoadingSpinner from './components/LoadingSpinner'
 import axios from 'axios';
+import {getCharacter,closeCard} from "./redux/actions";
 
 const DivGral = styled.div`
    //display: flex;
@@ -38,11 +40,13 @@ function App () {
 const location = useLocation()    
 const navigate = useNavigate();
 const [access, setAccess] = useState(false);
-const [characters, setCharacters] = useState([]);
 const username = 'ejemplo@gmail.com';
 const password = 'Password1';
 const [errors, setErrors] = useState('')
 const [isLoading, setIsLoading] = useState(false);
+const dispatch = useDispatch();
+const allCharacters = useSelector((state) => state.allCharacters);
+//const [characters, setCharacters] = useState([allCharacters]);
 
  function login(userData) {
    if (userData.password === password && userData.username === username) {
@@ -55,14 +59,23 @@ const [isLoading, setIsLoading] = useState(false);
 
  function logout() {
       setAccess(false);
-      setCharacters([]) 
+      //setCharacters([]) 
       navigate('/');
 }
  
   useEffect(() => {
    !access && navigate('/');
-   setCharacters(dumbData)
+   async function fetchData() {
+      try {
+         //setCharacters([characters.concat(dumbData)])
+      } catch (error) {
+         console.log(error)
+      }
+   }
+   fetchData();
 }, [access,navigate]);
+
+console.log(allCharacters)
 
 let cleanState=()=>{
    setErrors('')
@@ -78,11 +91,14 @@ let cleanState=()=>{
    setIsLoading(true);
    //fetch(`http://localhost:3001/rickandmorty/character/${character}`)
    try {
-   let response = await axios.get(`rickandmorty/character/${character}`)
-   let data = response.data;
+   let data = await dispatch(getCharacter(character))
+   //let response = await axios.get(`rickandmorty/character/${character}`)
+   //let data = response.data;
+   //console.log(data)
      
-         if (data.name) {
-            setCharacters((oldChars) => [...oldChars, data]);
+         //if (data.name) {
+         if (data) {
+           // setCharacters((oldChars) => [...oldChars, data]);
             setIsLoading(false)
             location.pathname !== "/home" && navigate ('/home')
          }else{
@@ -98,7 +114,8 @@ let cleanState=()=>{
   }
 
   const onClose = (id) => {
-     setCharacters(characters.filter(c => c.id !== id))
+     //setCharacters(characters.filter(c => c.id !== id))
+     dispatch(closeCard(id))
     }
 
   return (
@@ -112,7 +129,7 @@ let cleanState=()=>{
             <Route path='/' element={<Form login={login} />}/>     
             <Route path='/home' element={ 
                <DivCards>
-                    <Cards characters ={characters}  onClose={onClose}/> 
+                    <Cards characters ={allCharacters && allCharacters}  onClose={onClose}/> 
                </DivCards>         
                                         }/>            
             <Route path='/about' element={<About />}/>

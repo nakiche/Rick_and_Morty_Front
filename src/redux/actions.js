@@ -1,14 +1,13 @@
 import axios from 'axios';
 
-//const ADD_FAVORITE= 'ADD_FAVORITE';
-//const DELETE_FAVORITE= 'DELETE_FAVORITE';
 const FILTER='FILTER';
 const ORDER='ORDER';
 const GET_FAVORITE='GET_FAVORITE';
+const GET_CHARACTER='GET_CHARACTER';
+const CLOSE_CARD='CLOSE_CARD'
 
 
 export const getFavorites  = () => {
-  
   // Completa la funcion
   return async (dispatch)=>{
     
@@ -30,9 +29,28 @@ export const filterCards  = (status) => {
 };
 
 export const orderCards  = (id) => {
- 
   return{
     type:ORDER,
+    payload:id
+  }
+};
+
+export const getCharacter  = (character) => {
+  // Completa la funcion
+  return async (dispatch)=>{
+    let response = await axios.get(`rickandmorty/character/${character}`)
+    let data = response.data;
+    console.log(data)
+  return dispatch({
+    type:GET_CHARACTER,
+    payload:data
+  })
+}
+};
+
+export const closeCard  = (id) => {
+  return{
+    type:CLOSE_CARD,
     payload:id
   }
 };

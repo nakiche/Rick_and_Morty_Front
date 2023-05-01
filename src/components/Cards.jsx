@@ -3,8 +3,9 @@ import Card from './Card';
 export default function Cards(props) {
    
    const { characters } = props;
+   console.log(characters)
    return (
-      characters.map((c,b)=>
+      characters && characters.map((c,b)=>
          <Card key={b}
           id={c.id}
           name={c.name}

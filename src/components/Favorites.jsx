@@ -16,11 +16,11 @@ const DivCards = styled.div`
 export function Favorites() {
   const dispatch = useDispatch();
   const myFavorites = useSelector((state) => state.myFavorites);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   React.useEffect(() => {
     async function fetchData() {
-      setIsLoading(true);
+      //setIsLoading(true);
       try {
         dispatch(getFavorites());
         setIsLoading(false);

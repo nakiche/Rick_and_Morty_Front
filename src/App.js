@@ -5,13 +5,11 @@ import About from './components/About.jsx'
 import Detail from './components/Detail.jsx'
 import Favorites from './components/Favorites.jsx'
 import Cards from './components/Cards.jsx'
-import dumbData from './data.js'
 import styled from 'styled-components';
 import {useState,useEffect} from 'react'; 
 import { useDispatch, useSelector } from "react-redux";
 import {Routes,Route,useNavigate,useLocation } from 'react-router-dom';
 import LoadingSpinner from './components/LoadingSpinner'
-import axios from 'axios';
 import {getCharacter,closeCard} from "./redux/actions";
 
 const DivGral = styled.div`
@@ -88,6 +86,12 @@ let cleanState=()=>{
     setTimeout(cleanState, 3000);
     return
   }
+ 
+  if (allCharacters.some(e=>e.id===Number(character))) {
+   setErrors(`Character with id: ${character} already on screen`)
+   setTimeout(cleanState, 3000);
+   return
+ }
    setIsLoading(true);
    //fetch(`http://localhost:3001/rickandmorty/character/${character}`)
    try {

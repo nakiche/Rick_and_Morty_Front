@@ -82,7 +82,7 @@ export function Favorites() {
             />
           ))
         ) : (
-          <h2>There are no favorites</h2>
+          !isLoading && <h2>There are no favorites</h2>
         )}
       </DivCards>
     </div>
